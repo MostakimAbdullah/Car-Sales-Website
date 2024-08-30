@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row d-flex container m-auto mb-5 justify-content-center">
+    <div class="col-md-6 p-5">
+        <h1>Welcome to MK CarMart</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis quis perferendis saepe aspernatur recusandae fugiat, aliquid laboriosam atque accusantium amet dolores cum, excepturi provident odio officiis assumenda nesciunt. Odio repellat facere laboriosam expedita tenetur incidunt, nisi pariatur temporibus sed velit voluptatem saepe. Recusandae modi fugit soluta ipsum beatae ex quas. Cupiditate provident voluptates laborum soluta possimus nam eum, facere minus architecto, et earum? Autem, voluptatem id praesentium at, labore repellendus expedita iste dolor debitis excepturi numquam error maiores repudiandae enim ut facilis impedit odio.</p>
+    </div>
+    <div class="col-md-6 p-5">
+        <img src="{% static 'carpic.jpg' %}" class="w-100" alt="">
+    </div>
+</div>
+<div class="d-flex flex-wrap gap-4 container m-auto mb-5">
+   {% for cat in category %}
+   <h1 class="card text-center bg-info p-3" style="width: 300px;"><a href="{% url 'category_wise_slug' cat.slug %}" style="text-decoration: none; color: black;">{{cat.brand_name}}</a></h1>
+   {% endfor %}
+</div>
+
+<div class="text-start px-5 mb-3">
+    <h1>Total Car Found: {{data | length}}</h1>
+</div>
+ <div class="d-flex flex-wrap gap-4 container m-auto mb-5">
+    {% for i in data %}
+    <div class="card"style="width: 300px;">
+        <div class="card-body">
+          <img class="w-100" src="{{i.image.url}}" alt="">
+          <h5 class="card-title">{{i.name}}</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">${{i.price}}</h6>
+          <p class="card-text">{{i.brand.brand_name}}</p>
+          <p class="card-text">{{i.description | truncatewords:20 }}</p>
+          {% if user.is_authenticated %}
+          <a href="{% url 'carprofile' i.id %}" class="btn btn-warning btn-sm" style="text-decoration: none; color: black;">View Details</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+ </div>
+
+
+{% endblock %}

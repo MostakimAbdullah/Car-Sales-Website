@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row d-flex container m-auto mb-5 justify-content-center">
+    <div class="col-md-6 p-5">
+        <img src="{{data.image.url}}" class="w-100" alt="">
+    </div>
+    <div class="col-md-6 p-5">
+        <h1>{{data.name}}</h1>
+        <h2>Price: ${{data.price}}</h2>
+        <h3>Quantity: {{data.quantity}}</h3>
+        <p>{{data.description}}</p>
+        <a href="{% url 'buycar' data.id %}" class="btn btn-secondary">Buy Now</a>
+    </div>
+</div>
+<div class="card m-auto container mb-5">
+    <div class="card-header">
+    <h1>Comments</h1>
+    </div>
+    <div class="card-body">
+    {% for i in car %}
+        {% if i.car.name == data.name  %}
+        <p><b>{{i.name}}</b>  {{i.created_at}} made an opinion about <b>{{i.car.name}}</b></p>
+        <p>{{i.comment}}</p>
+        {% endif %}
+    {% endfor %}
+   </div>
+</div>
+<div>
+   <form method="post" class="m-auto container pb-3">
+    {% csrf_token %}
+    <h1>Add an Comment</h1>
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-outline-success" >Comment</button>
+   </form> 
+</div>
+{% endblock %}
